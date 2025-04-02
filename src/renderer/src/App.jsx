@@ -1,7 +1,7 @@
 function App() {
   const ipcHandle = () => window.electron.ipcRenderer.send('ping')
 
-  return <>1213</>
+  return <>головна</>
 }
 
 export default App

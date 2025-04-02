@@ -6,6 +6,8 @@ import App from './App'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import RootLayout from './RootLayout'
 
+import ExerciseEditor from './pages/ExerciseEditor'
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -14,6 +16,14 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <App />
+      },
+      {
+        path: '/exercisesEditor',
+        element: <ExerciseEditor />
+      },
+      {
+        path: '/workoutEditor',
+        element: <h1>workout Editor</h1>
       }
     ]
   }

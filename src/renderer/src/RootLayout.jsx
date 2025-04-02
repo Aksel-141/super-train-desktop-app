@@ -1,10 +1,13 @@
 import { Outlet } from 'react-router-dom'
+import SideBar from './components/SideBar'
 
 function RootLayout() {
   return (
-    <div>
-      123151351
-      <Outlet />
+    <div className="flex h-screen overflow-hidden">
+      <SideBar />
+      <div className="my-[14px] mx-[20px]">
+        <Outlet />
+      </div>
     </div>
   )
 }

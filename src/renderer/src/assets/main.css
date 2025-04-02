@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+    font-family: 'Shantell Sans';
+    src: url('./fonts/ShantellSans-VariableFont.ttf') format('truetype');
+    font-weight: 100 900; /* Вказує, що це Variable Font */
+    font-style: normal;
+}
+body{
+    font-family: 'Shantell Sans', sans-serif;
+    background-color: #F2EDF3;
+    color: #404040;
+
+}
