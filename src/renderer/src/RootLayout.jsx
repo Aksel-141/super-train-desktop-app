@@ -5,7 +5,7 @@ function RootLayout() {
   return (
     <div className="flex h-screen overflow-hidden">
       <SideBar />
-      <div className="my-[14px] mx-[20px]">
+      <div className="my-[14px] mx-[20px] w-full h-full">
         <Outlet />
       </div>
     </div>

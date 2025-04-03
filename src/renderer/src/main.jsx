@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom/client'
 import App from './App'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import RootLayout from './RootLayout'
-
+import navRoutes from './constants/routes'
 import ExerciseEditor from './pages/ExerciseEditor'
 
 const router = createBrowserRouter([
@@ -18,11 +18,11 @@ const router = createBrowserRouter([
         element: <App />
       },
       {
-        path: '/exercisesEditor',
+        path: navRoutes.exercisesEditor.path,
         element: <ExerciseEditor />
       },
       {
-        path: '/workoutEditor',
+        path: navRoutes.workoutEditor.path,
         element: <h1>workout Editor</h1>
       }
     ]

@@ -1,25 +1,24 @@
 import { MdHome, MdEditDocument } from 'react-icons/md'
 import { NavLink } from 'react-router-dom'
-import navRoutes from '../constants/routes'
-console.log(navRoutes)
+import navRoutes from '../constants/routes.js'
 
 const navMenuItems = [
   {
     id: 'home',
-    title: 'головна',
-    path: '/',
+    title: navRoutes.home.title,
+    path: navRoutes.home.path,
     icon: <MdHome size={24} />
   },
   {
     id: 'exercisesEditor',
-    title: 'Редактор вправ',
-    path: '/exercisesEditor',
+    title: navRoutes.exercisesEditor.title,
+    path: navRoutes.exercisesEditor.path,
     icon: <MdEditDocument size={24} />
   },
   {
     id: 'workautEditor',
-    title: 'Редактор тренувань',
-    path: '/workoutEditor',
+    title: navRoutes.workoutEditor.title,
+    path: navRoutes.workoutEditor.path,
     icon: <MdEditDocument size={24} />
   }
 ]
