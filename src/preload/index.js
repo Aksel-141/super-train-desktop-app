@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { contextBridge } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 

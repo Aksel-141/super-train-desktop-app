@@ -1,11 +1,19 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
+// @ts-ignore
 import icon from '../../resources/icon.png?asset'
+
+import ExerciseService from './ExerciseService/index'
+
+/**
+ * @type {BrowserWindow | null}
+ */
+let mainWindow = null
 
 function createWindow() {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 1920,
     height: 1080,
     show: false,
@@ -18,7 +26,9 @@ function createWindow() {
   })
 
   mainWindow.on('ready-to-show', () => {
-    mainWindow.show()
+    if (mainWindow) {
+      mainWindow.show()
+    }
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
@@ -49,8 +59,17 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  // IPC test
-  ipcMain.on('ping', () => console.log('pong'))
+  ipcMain.handle('add-exercise', async (_, exercise) => {
+    ExerciseService.addExercise(exercise)
+    return ExerciseService.getExercises()
+  })
+
+  ipcMain.handle('get-exercises', async () => {
+    return ExerciseService.getExercises()
+  })
+  ipcMain.handle('remove-exercise', async (_, id) => {
+    return ExerciseService.removeExercise(id)
+  })
 
   createWindow()
 
