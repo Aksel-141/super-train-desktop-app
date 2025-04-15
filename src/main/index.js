@@ -5,6 +5,7 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 
 import ExerciseService from './ExerciseService/index'
+import BaseDataService from './BaseDataService'
 
 /**
  * @type {BrowserWindow | null}
@@ -63,12 +64,29 @@ app.whenReady().then(() => {
     ExerciseService.addExercise(exercise)
     return ExerciseService.getExercises()
   })
+  ipcMain.handle('update-exercise', async (_, exercise) => {
+    ExerciseService.updateExercise(exercise)
+    return ExerciseService.getExercises()
+  })
 
   ipcMain.handle('get-exercises', async () => {
     return ExerciseService.getExercises()
   })
   ipcMain.handle('remove-exercise', async (_, id) => {
     return ExerciseService.removeExercise(id)
+  })
+
+  //Отримання базових даних про групи м'язів для створення вправ
+  ipcMain.handle('get-MuscleGroup', async () => {
+    return BaseDataService.getMuscleGroups()
+  })
+  //Отримання базових даних про обладнання для створення вправ
+  ipcMain.handle('get-EquipmentsList', async () => {
+    return BaseDataService.getEquipmentsList()
+  })
+  //Отримання базових вправ про тип вправи для створення вправ
+  ipcMain.handle('get-ExerciseTypes', async () => {
+    return BaseDataService.getExerciseTypes()
   })
 
   createWindow()

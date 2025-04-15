@@ -8,12 +8,12 @@ interface TextInputProps {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>
 }
 
-function TextInput({ value, label, placeholder, onChange, ...inputProps }: TextInputProps) {
+function TextInput({ value, label, placeholder, onChange, type, ...inputProps }: TextInputProps) {
   return (
     <div>
       {label && <label className="text-[20px] font-bold ">{label}</label>}
       <input
-        type="text"
+        type={!type ? 'text' : type}
         value={value}
         onChange={onChange}
         placeholder={placeholder}
