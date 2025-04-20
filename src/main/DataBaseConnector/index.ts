@@ -111,6 +111,24 @@ class DataBaseConnector {
       time INTEGER NOT NULL,
       FOREIGN KEY (exercise_id) REFERENCES exercises (id) ON DELETE CASCADE
       )`)
+    // Таблиця з рутиною(Наприлад, рутина для ніг, спини тощо)
+    this.db.exec(`
+      Create table if not exists training_routines(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        description TEXT
+    )`)
+    //Таблиця Рутина-вправа
+    //Містить в собі зв'язок між рутиною та вправами та порядок виконання
+    this.db.exec(`
+      Create table if not exists training_routines_exercises(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      training_routine_id INTEGER NOT NULL,
+      exercise_id INTEGER NOT NULL,
+      exercise_order INTEGER NOT NULL,
+      FOREIGN KEY (training_routine_id) REFERENCES training_routines (id) ON DELETE CASCADE,
+      FOREIGN KEY (exercise_id) REFERENCES exercises (id) ON DELETE CASCADE
+      )`)
   }
 
   private runMigrations() {

@@ -15,7 +15,9 @@
             "@renderer/*": [
                 "src/renderer/src/*"
             ]
-        }
+        },
+        "outDir": "./dist", // Output compiled files to the 'dist' directory
+    "rootDir": "./src" 
     },
     "include": [
         "src/**/*"

@@ -29,6 +29,8 @@ function ExerciseEditor() {
    * Використовується для редагування даних вправи.
    */
   const [exerciseData, setExerciseData] = useState<Exercise>(initialState)
+  console.log(exerciseData)
+
   /**
    * Стан компонента, який містить список вправ.
    */

@@ -7,9 +7,9 @@ const navRoutes = {
     title: 'Редактор вправ',
     path: '/exercisesEditor'
   },
-  workoutEditor: {
-    title: 'Редактор тренувань',
-    path: '/workoutEditor'
+  routineEditor: {
+    title: 'Редактор рутин',
+    path: '/routineEditor'
   }
 }
 

@@ -10,12 +10,31 @@ class ExerciseService {
 
   getExercises(): Exercise[] {
     const query = `
-    SELECT 
-    e.id, e.name, e.level, e.difficulty, e.video_link, e.image_link, e.description,
-    mg.id AS muscle_group_id, mg.name AS muscle_group_name, mg.description AS muscle_group_desc,
-    eq.id AS equipment_id, eq.name AS equipment_name, eq.description AS equipment_desc,
-    rs.sets, rs.reps, rs.time,
-    et.id AS exercise_type_id, et.name AS exercise_type_name, et.description AS exercise_type_desc
+   SELECT 
+    e.id, 
+    e.name, 
+    e.level, 
+    e.difficulty, 
+    e.video_link, 
+    e.image_link, 
+    e.description,
+    
+    mg.id AS muscle_group_id, 
+    mg.name AS muscle_group_name, 
+    mg.description AS muscle_group_desc,
+    
+    eq.id AS equipment_id, 
+    eq.name AS equipment_name, 
+    eq.description AS equipment_desc,
+    
+    rs.sets, 
+    rs.reps, 
+    rs.time,
+    
+    et.id AS exercise_type_id, 
+    et.name AS exercise_type_name, 
+    et.description AS exercise_type_desc
+
 FROM exercises e
 LEFT JOIN exercises_muscle_groups emg ON e.id = emg.exercise_id
 LEFT JOIN muscle_groups mg ON emg.muscle_group_id = mg.id
@@ -24,6 +43,7 @@ LEFT JOIN equipment eq ON exe.equipment_id = eq.id
 LEFT JOIN recomended_sets rs ON e.id = rs.exercise_id
 LEFT JOIN exercises_exercises_types eet ON e.id = eet.exercise_id
 LEFT JOIN exercise_types et ON eet.exercise_type_id = et.id;
+
 
     `
 
@@ -49,14 +69,17 @@ LEFT JOIN exercise_types et ON eet.exercise_type_id = et.id;
       }
       const exercise = exercisesMap.get(row.id)!
 
-      if (row.muscle_group_id) {
+      if (
+        row.muscle_group_id &&
+        !exercise?.muscleGroups?.some((mg) => mg.id === row.muscle_group_id)
+      ) {
         exercise.muscleGroups?.push({
           id: row.muscle_group_id,
           name: row.muscle_group_name,
           description: row.muscle_group_desc
         })
       }
-      if (row.equipment_id) {
+      if (row.equipment_id && !exercise?.equipment?.some((eq) => eq.id === row.equipment_id)) {
         exercise.equipment?.push({
           id: row.equipment_id,
           name: row.equipment_name,
@@ -70,7 +93,11 @@ LEFT JOIN exercise_types et ON eet.exercise_type_id = et.id;
       //     description: row.sets_time
       //   })
       // }
-      if (row.exercise_types) {
+
+      if (
+        row.exercise_type_id &&
+        !exercise?.exercise_types?.some((et) => et.id === row.exercise_type_id)
+      ) {
         exercise.exercise_types?.push({
           id: row.exercise_type_id,
           name: row.exercise_type_name,
@@ -82,8 +109,6 @@ LEFT JOIN exercise_types et ON eet.exercise_type_id = et.id;
   }
 
   addExercise(exercise: Omit<Exercise, 'id'>): number {
-    console.log(exercise)
-
     const transaction = this.db.transaction(() => {
       const insertExcercise = this.db.prepare(`
         insert into exercises (name, level, difficulty, video_link, image_link, description) values (?, ?, ?, ?,?,?)
@@ -117,9 +142,10 @@ LEFT JOIN exercise_types et ON eet.exercise_type_id = et.id;
         }
       }
       //Якщо вказанотип вправи то..
+
       if (exercise.exercise_types?.length) {
         const insertExerciseType = this.db.prepare(`
-          Insert into exercises_exercises_types (exercise_id, type_id) values (?, ?)
+          Insert into exercises_exercises_types (exercise_id, exercise_type_id) values (?, ?)
           `)
         for (const type of exercise.exercise_types) {
           insertExerciseType.run(exersiceID, type.id)

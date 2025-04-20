@@ -17,8 +17,8 @@ const navMenuItems = [
   },
   {
     id: 'workautEditor',
-    title: navRoutes.workoutEditor.title,
-    path: navRoutes.workoutEditor.path,
+    title: navRoutes.routineEditor.title,
+    path: navRoutes.routineEditor.path,
     icon: <MdEditDocument size={24} />
   }
 ]

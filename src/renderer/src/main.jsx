@@ -7,6 +7,7 @@ import { createHashRouter, RouterProvider } from 'react-router-dom'
 import RootLayout from './RootLayout'
 import navRoutes from './constants/routes'
 import ExerciseEditor from './pages/ExerciseEditor'
+import RoutineEditor from './pages/RoutineEditor'
 
 const router = createHashRouter([
   {
@@ -22,8 +23,8 @@ const router = createHashRouter([
         element: <ExerciseEditor />
       },
       {
-        path: navRoutes.workoutEditor.path,
-        element: <h1>workout Editor</h1>
+        path: navRoutes.routineEditor.path,
+        element: <RoutineEditor />
       }
     ]
   }
