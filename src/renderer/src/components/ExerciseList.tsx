@@ -6,14 +6,14 @@ import { MdDeleteForever } from 'react-icons/md'
 interface ExerciseListProps {
   isExersiceEditor?: boolean
   onExerciseDrop?: (exercise: Exercise) => void
+  handleOnClick?: (exercise: Exercise) => void
 }
-function ExerciseList({ isExersiceEditor, onExerciseDrop }: ExerciseListProps) {
+function ExerciseList({ isExersiceEditor, onExerciseDrop, handleOnClick }: ExerciseListProps) {
   /**
    * Стан компонента, який містить список вправ.
    */
   const [exercises, setExercises] = useState<Exercise[]>([])
   const [exerciseData, setExerciseData] = useState<Exercise>()
-  console.log(exerciseData)
 
   //Функція для отримання списку вправ
   const loadExercises = async () => {
@@ -40,14 +40,19 @@ function ExerciseList({ isExersiceEditor, onExerciseDrop }: ExerciseListProps) {
 
   return (
     <div>
+      <h2 className="text-center m-4 font-bold text-[28px]">Список вправ</h2>
       {exercises?.map((exercise, index) => {
         return (
           <div
             key={index}
             className="flex justify-between items-center p-4 border-b"
             onClick={() => onExerciseDrop?.(exercise)}
+            draggable
+            onDragStart={(e) => {
+              e.dataTransfer.setData('exercise', JSON.stringify(exercise))
+            }}
           >
-            <span onClick={() => setExerciseData(exercise)}>{exercise?.name}</span>
+            <span onClick={() => handleOnClick?.(exercise)}>{exercise?.name}</span>
             {isExersiceEditor && (
               <button
                 onClick={() => handleDelete(exercise?.id)}

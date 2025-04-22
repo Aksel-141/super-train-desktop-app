@@ -126,6 +126,9 @@ class DataBaseConnector {
       training_routine_id INTEGER NOT NULL,
       exercise_id INTEGER NOT NULL,
       exercise_order INTEGER NOT NULL,
+      sets INTEGER,         -- кількість сетів (опціонально)
+      reps INTEGER,         -- кількість повторень (опціонально)
+      time INTEGER,         -- тривалість (у секундах), якщо вправа на час (опціонально)
       FOREIGN KEY (training_routine_id) REFERENCES training_routines (id) ON DELETE CASCADE,
       FOREIGN KEY (exercise_id) REFERENCES exercises (id) ON DELETE CASCADE
       )`)
