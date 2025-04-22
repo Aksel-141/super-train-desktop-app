@@ -11,9 +11,27 @@ function RoutineEditor() {
   const [routineExercises, setRoutineExercises] = useState<Exercise[]>([])
 
   console.log(routineExercises)
+  // console.log(routineName)
 
   const test = (ex: Exercise) => {
     console.log(ex)
+  }
+
+  function handleAddRoutine() {}
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, field: string, id: number) => {
+    const { value } = e.target
+
+    setRoutineExercises((prev) =>
+      prev.map((exercise, index) =>
+        index === id
+          ? {
+              ...exercise,
+              [field]: value
+            }
+          : exercise
+      )
+    )
   }
 
   return (
@@ -23,7 +41,12 @@ function RoutineEditor() {
       <div className="grid grid-cols-4 gap-4 mt-4 ">
         <div className="bg-[#fff] rounded-lg col-span-3 py-[25px] px-[42px]  max-h-[calc(100vh-100px)]">
           <div className="flex gap-2 items-center">
-            <TextInput label={'Назва рутини'} />
+            <TextInput
+              label={'Назва рутини'}
+              onChange={(e) => {
+                setRoutineName(e.target.value)
+              }}
+            />
             {/* Блок з кнопками */}
             <div className="flex flex-row gap-4 mt-4 ">
               <button
@@ -52,7 +75,8 @@ function RoutineEditor() {
               const data = e.dataTransfer.getData('exercise')
               if (data) {
                 const droppedExercise = JSON.parse(data)
-                setRoutineExercises((prev) => [...prev, droppedExercise])
+                const parsed = { id: droppedExercise.id, name: droppedExercise.name }
+                setRoutineExercises((prev) => [...prev, parsed])
               }
             }}
             className={`max-h-[calc(100vh-250px)] border-2 border-gray-300 mt-10 rounded-lg overflow-y-auto`}
@@ -88,6 +112,7 @@ function RoutineEditor() {
                           type="number"
                           placeholder="Кількість підходів"
                           defaultValue={0}
+                          onChange={(e) => handleChange(e, 'sets', index)}
                         />
                       </div>
                       {/* --- */}
@@ -98,6 +123,7 @@ function RoutineEditor() {
                           type="number"
                           placeholder="Кількість повторів"
                           defaultValue={0}
+                          onChange={(e) => handleChange(e, 'reps', index)}
                         />
                       </div>
                       {/* ---- */}
@@ -108,9 +134,10 @@ function RoutineEditor() {
                           min="0"
                           max="300"
                           type="number"
-                          onChange={(e: any) => {
-                            console.log(new Date(e.target.value * 1000).toISOString().slice(14, 19))
-                          }}
+                          // onChange={(e: any) => {
+                          //   console.log(new Date(e.target.value * 1000).toISOString().slice(14, 19))
+                          // }}
+                          onChange={(e) => handleChange(e, 'time', index)}
                           placeholder="Час"
                           list="timeOptions"
                           defaultValue={0}

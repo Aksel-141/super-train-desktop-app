@@ -105,7 +105,6 @@ function ExerciseEditor() {
 
     setExerciseData((prev) => {
       const currentExerciseTypes = prev.exercise_types || []
-      console.log(prev)
       const isAlreadySelected = currentExerciseTypes.some((et) => et.id === exerciseType.id)
 
       if (isAlreadySelected) {
