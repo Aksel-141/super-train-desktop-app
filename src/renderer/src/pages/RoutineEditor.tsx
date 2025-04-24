@@ -34,6 +34,30 @@ function RoutineEditor() {
     )
   }
 
+  const handleDelete = (index: number) => {
+    setRoutineExercises((prev) => prev.filter((_, i) => i !== index))
+  }
+
+  function moveOrderExercise(index: number, direction: 'up' | 'down') {
+    setRoutineExercises((prev) => {
+      const newExercises = [...prev]
+      if (direction === 'up' && index > 0) {
+        // Переміщення вгору
+        ;[newExercises[index - 1], newExercises[index]] = [
+          newExercises[index],
+          newExercises[index - 1]
+        ]
+      } else if (direction === 'down' && index < newExercises.length - 1) {
+        // Переміщення вниз
+        ;[newExercises[index + 1], newExercises[index]] = [
+          newExercises[index],
+          newExercises[index + 1]
+        ]
+      }
+      return newExercises
+    })
+  }
+
   return (
     <div>
       <PageTitleHeader icon={<MdEditDocument size={38} />} title={'Редактор рутин'} />
@@ -88,7 +112,23 @@ function RoutineEditor() {
                   <div key={index} className="flex flex-col gap-2 items-center m-3">
                     <div className="w-full flex gap-3 justify-between">
                       <div className="flex gap-3 items-center">
-                        <span className="">{index + 1}.</span>
+                        <div>
+                          <button
+                            className="cursor-pointer"
+                            onClick={() => moveOrderExercise(index, 'up')}
+                            disabled={index === 0}
+                          >
+                            ⬆️
+                          </button>
+                          <span className="">{index + 1}.</span>
+                          <button
+                            className="cursor-pointer"
+                            onClick={() => moveOrderExercise(index, 'down')}
+                            disabled={index === routineExercises.length - 1}
+                          >
+                            ⬇️
+                          </button>
+                        </div>
                         <span className="">{exercise.name}</span>
                         {/* кнопка з яка відкриє модальне вікно з інформацією про вправу */}
                         <div className="">
@@ -97,7 +137,7 @@ function RoutineEditor() {
                       </div>
 
                       <button
-                        // onClick={() => handleDelete(exercise?.id)}
+                        onClick={() => handleDelete(index)}
                         className="hover:bg-red-500 hover:text-white text-red-500"
                       >
                         <MdDeleteForever />
